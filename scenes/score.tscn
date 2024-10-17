@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxjcy0gwglvk5"]
+
+[ext_resource type="Script" path="res://scripts/score.gd" id="1_3ogvo"]
+[ext_resource type="Texture2D" uid="uid://gmrn3fsfgq7f" path="res://assets/apple.png" id="2_4ocae"]
+
+[node name="Score" type="Node2D" groups=["ScoreGroup"]]
+script = ExtResource("1_3ogvo")
+
+[node name="ScoreText" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0"
+
+[node name="Apple" type="Sprite2D" parent="."]
+texture = ExtResource("2_4ocae")

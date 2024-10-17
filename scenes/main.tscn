@@ -1,0 +1,82 @@
+[gd_scene load_steps=13 format=3 uid="uid://bekbuc2eh71ao"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_nf2qx"]
+[ext_resource type="Texture2D" uid="uid://bpml24a7ko6rf" path="res://assets/grass.png" id="2_jpg0x"]
+[ext_resource type="Texture2D" uid="uid://b3ivjeeo043pv" path="res://assets/Snake_spritesheet.png" id="2_sicsf"]
+[ext_resource type="Texture2D" uid="uid://gmrn3fsfgq7f" path="res://assets/apple.png" id="3_ghcdw"]
+[ext_resource type="PackedScene" uid="uid://dxjcy0gwglvk5" path="res://scenes/score.tscn" id="5_ynbo8"]
+[ext_resource type="AudioStream" uid="uid://c835ubvnj0ktk" path="res://assets/sounds/crunch.mp3" id="6_nn152"]
+[ext_resource type="AudioStream" uid="uid://chkxdbcclbu5c" path="res://assets/sounds/teleport.mp3" id="7_mwb4r"]
+[ext_resource type="AudioStream" uid="uid://dhdv5wfk3lyfl" path="res://assets/sounds/heavy-punch.mp3" id="8_r3w1b"]
+[ext_resource type="AudioStream" uid="uid://dn6g55pitjjjr" path="res://assets/sounds/grabbing.mp3" id="9_diguv"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bli1n"]
+resource_name = "Snake"
+texture = ExtResource("2_sicsf")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4cstf"]
+resource_name = "Apple"
+texture = ExtResource("3_ghcdw")
+texture_region_size = Vector2i(40, 40)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_8ik6i"]
+tile_size = Vector2i(40, 40)
+sources/0 = SubResource("TileSetAtlasSource_bli1n")
+sources/1 = SubResource("TileSetAtlasSource_4cstf")
+
+[node name="Main" type="Node"]
+script = ExtResource("1_nf2qx")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_jpg0x")
+stretch_mode = 1
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_8ik6i")
+format = 2
+
+[node name="SnakeTick" type="Timer" parent="."]
+wait_time = 0.15
+autostart = true
+
+[node name="Score" parent="." instance=ExtResource("5_ynbo8")]
+
+[node name="CrunchSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_nn152")
+volume_db = 5.0
+pitch_scale = 1.25
+
+[node name="TeleportSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_mwb4r")
+volume_db = -5.0
+
+[node name="HeavyPunchSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_r3w1b")
+volume_db = -10.0
+
+[node name="GrabbingSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_diguv")
+
+[connection signal="timeout" from="SnakeTick" to="." method="_on_snake_tick_timeout"]
